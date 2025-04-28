@@ -1,0 +1,32 @@
+### Get all workers
+GET http://localhost:3000/workers
+
+### Get a single worker by ID
+GET http://localhost:3000/workers/1
+
+### Create a new worker
+POST http://localhost:3000/workers
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "shortDescription": "Experienced mechanic",
+  "fullDescription": "John has over 10 years of experience in car repair and maintenance.",
+  "position": "Mechanic"
+}
+
+### Delete a worker by ID
+DELETE http://localhost:3000/workers/1
+
+### Add a review to a worker
+POST http://localhost:3000/workers/1/reviews
+Content-Type: application/json
+
+{
+  "shortDescription": "Great service!",
+  "fullDescription": "The worker was very professional and fixed my car quickly.",
+  "rating": 5
+}
+
+### Get all reviews for a worker
+GET http://localhost:3000/workers/1/reviews

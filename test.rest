@@ -1,0 +1,369 @@
+### Переменные
+@baseUrl = http://localhost
+@authToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoxLCJpc1N1cGVyQWRtaW4iOnRydWUsInBlcm1pc3Npb25zIjpbInVzZXJzLm1hbmFnZSIsImNhcnMubWFuYWdlIiwid29ya2Vycy5tYW5hZ2UiLCJzZXJ2aWNlcy5tYW5hZ2UiXSwiaWF0IjoxNzQ2NzY5Mjk4LCJleHAiOjE3NDY4NTU2OTh9.gsyDKV8aHldU11OO29WmD2xy3rZlEDaZV77L9Y2ZUDw
+
+### ========================= АУТЕНТИФИКАЦИЯ =========================
+
+### Регистрация нового пользователя
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "firstName": "Иван",
+  "lastName": "Иванов"
+}
+
+### Вход в систему
+# @name login
+POST http://localhost:3002/user/login
+Content-Type: application/json
+
+{
+  "email": "sakashimaideal@yandex.ru",
+  "password": "qweqwe123"
+}
+
+### Сохраняем токен из ответа
+@authToken = Bearer {{login.response.body.accessToken}}
+
+### Проверка текущего пользователя
+GET {{baseUrl}}/auth/profile
+Authorization: {{authToken}}
+
+### ========================= ПОЛЬЗОВАТЕЛИ =========================
+
+### Получить всех пользователей
+GET {{baseUrl}}/users
+Authorization: {{authToken}}
+
+### Получить пользователя по ID
+GET {{baseUrl}}/users/1
+Authorization: {{authToken}}
+
+### Обновить пользователя
+PUT {{baseUrl}}/users/1
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Петр",
+  "lastName": "Петров"
+}
+
+### Удалить пользователя
+DELETE {{baseUrl}}/users/1
+Authorization: {{authToken}}
+
+### ========================= АВТОМОБИЛИ =========================
+
+### Получить все автомобили
+GET {{baseUrl}}/cars
+
+### Получить автомобиль по ID
+GET {{baseUrl}}/cars/1
+
+### Создать новый автомобиль
+POST {{baseUrl}}/cars
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoxLCJpc1N1cGVyQWRtaW4iOnRydWUsInBlcm1pc3Npb25zIjpbInVzZXJzLm1hbmFnZSIsImNhcnMubWFuYWdlIiwid29ya2Vycy5tYW5hZ2UiLCJzZXJ2aWNlcy5tYW5hZ2UiXSwiaWF0IjoxNzQ2NzcwMzAwLCJleHAiOjE3NDY4NTY3MDB9.hX5pLfRTey9vXUYcuvIc_rmb8-QuQdVxzm-asnekoVY
+Content-Type: application/json
+
+{
+  "name": "BMW X5",
+  "shortDescription": "Премиальный внедорожник",
+  "fullDescription": "Полное описание автомобиля BMW X5",
+  "price": 5000000,
+  "quantity": 3,
+  "imagePath": "/uploads/images/b6f2f8ce-277d-4ac7-843e-cf2271675e99.jpg"
+}
+
+### Обновить автомобиль
+PUT {{baseUrl}}/cars/1
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "BMW X5 (обновленный)",
+  "price": 5200000
+}
+
+### Удалить автомобиль
+DELETE {{baseUrl}}/cars/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwic3ViIjoxLCJpc1N1cGVyQWRtaW4iOnRydWUsInBlcm1pc3Npb25zIjpbInVzZXJzLm1hbmFnZSIsImNhcnMubWFuYWdlIiwid29ya2Vycy5tYW5hZ2UiLCJzZXJ2aWNlcy5tYW5hZ2UiXSwiaWF0IjoxNzQ2NzcxNTM4LCJleHAiOjE3NDY4NTc5Mzh9.BkHsi0Amv0Ctiu8DTseFmxIRKzARril72RZ1UkE1SqQ
+
+### ========================= РАБОТНИКИ =========================
+
+### Получить всех работников
+GET {{baseUrl}}/workers
+
+### Получить работника по ID
+GET {{baseUrl}}/workers/1
+
+### Создать нового работника
+POST {{baseUrl}}/workers
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Алексей Смирнов",
+  "shortDescription": "Автомеханик с 10-летним стажем",
+  "fullDescription": "Опытный автомеханик, специализирующийся на немецких автомобилях",
+  "position": "Старший механик",
+  "workTime": 8,
+  "imagePath": "/images/workers/alexey.jpg"
+}
+
+### Обновить работника
+PUT {{baseUrl}}/workers/1
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "position": "Главный механик",
+  "workTime": 9
+}
+
+### Удалить работника
+DELETE {{baseUrl}}/workers/1
+Authorization: {{authToken}}
+
+### Добавить отзыв о работнике
+POST {{baseUrl}}/workers/1/reviews
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "shortDescription": "Отличная работа",
+  "fullDescription": "Очень доволен качеством ремонта и обслуживанием",
+  "rating": 5
+}
+
+### Получить отзывы о работнике
+GET {{baseUrl}}/workers/1/reviews
+
+### ========================= ЗАДАЧИ =========================
+
+### Получить все задачи
+GET {{baseUrl}}/tasks
+Authorization: {{authToken}}
+
+### Получить задачу по ID
+GET {{baseUrl}}/tasks/1
+Authorization: {{authToken}}
+
+### Создать новую задачу
+POST {{baseUrl}}/tasks
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Замена масла",
+  "description": "Замена масла и фильтров в BMW X5"
+}
+
+### Обновить задачу
+PUT {{baseUrl}}/tasks/1
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Срочная замена масла",
+  "description": "Срочная замена масла и фильтров в BMW X5"
+}
+
+### Удалить задачу
+DELETE {{baseUrl}}/tasks/1
+Authorization: {{authToken}}
+
+### ========================= ДЕТАЛИ =========================
+
+### Получить все детали
+GET {{baseUrl}}/details
+
+### Получить деталь по ID
+GET {{baseUrl}}/details/1
+
+### Создать новую деталь
+POST {{baseUrl}}/details
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Масляный фильтр BMW",
+  "article": "BMW-OIL-01",
+  "creatorCode": "BMW",
+  "creator": "Bayerische Motoren Werke AG",
+  "detailCategory": "Фильтры",
+  "imagePath": "/images/details/bmw-oil-filter.jpg",
+  "price": 1500,
+  "quantity": 20
+}
+
+### Обновить деталь
+PUT {{baseUrl}}/details/1
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "price": 1600,
+  "quantity": 25
+}
+
+### Удалить деталь
+DELETE {{baseUrl}}/details/1
+Authorization: {{authToken}}
+
+### ========================= УСЛУГИ =========================
+
+### Получить все услуги
+GET {{baseUrl}}/services
+
+### Получить услугу по ID
+GET {{baseUrl}}/services/1
+
+### Создать новую услугу
+POST {{baseUrl}}/services
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Замена масла",
+  "shortDescription": "Замена масла и масляного фильтра",
+  "longDescription": "Полная замена масла и масляного фильтра. Включает диагностику и проверку уровня других жидкостей.",
+  "price": 2000,
+  "imagePath": "/images/services/oil-change.jpg"
+}
+
+### Обновить услугу
+PUT {{baseUrl}}/services/1
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "price": 2200,
+  "longDescription": "Полная замена масла и масляного фильтра с использованием высококачественных материалов. Включает диагностику и проверку уровня других жидкостей."
+}
+
+### Удалить услугу
+DELETE {{baseUrl}}/services/1
+Authorization: {{authToken}}
+
+### ========================= УСЛУГИ ПОКРАСКИ =========================
+
+### Получить все услуги покраски
+GET {{baseUrl}}/painting-services
+
+### Получить услугу покраски по ID
+GET {{baseUrl}}/painting-services/1
+
+### Создать новую услугу покраски
+POST {{baseUrl}}/painting-services
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Полная покраска кузова",
+  "shortDescription": "Полная покраска кузова автомобиля",
+  "longDescription": "Полная покраска кузова автомобиля любой сложности с предварительной подготовкой поверхности.",
+  "price": 50000,
+  "type": "FULL_BODY",
+  "estimatedDays": 7,
+  "warrantyMonths": 12,
+  "additionalRequirements": "Необходимо предварительное согласование цвета"
+}
+
+### Обновить услугу покраски
+PUT {{baseUrl}}/painting-services/1
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "price": 55000,
+  "estimatedDays": 8,
+  "warrantyMonths": 24
+}
+
+### Удалить услугу покраски
+DELETE {{baseUrl}}/painting-services/1
+Authorization: {{authToken}}
+
+### ========================= EMAIL =========================
+
+### Отправить письмо для подтверждения email
+POST {{baseUrl}}/email/send-verification
+Authorization: {{authToken}}
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+### Подтвердить email
+POST {{baseUrl}}/email/verify
+Content-Type: application/json
+
+{
+  "token": "verification-token-here"
+}
+
+### ========================= АДМИНЫ =========================
+
+### Вход в админ-панель
+# @name adminLogin
+POST http://localhost:3002/admin/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+### Сохраняем админ-токен
+@adminToken = Bearer {{adminLogin.response.body.access_token}}
+
+### Получить профиль текущего админа
+GET {{baseUrl}}/admin/profile
+Authorization: {{adminToken}}
+
+### Получить всех админов
+GET {{baseUrl}}/admin
+Authorization: {{adminToken}}
+
+### Получить админа по ID
+GET {{baseUrl}}/admin/1
+Authorization: {{adminToken}}
+
+### Создать нового админа
+POST {{baseUrl}}/admin
+Authorization: {{adminToken}}
+Content-Type: application/json
+
+{
+  "username": "newadmin",
+  "password": "admin456",
+  "fullName": "Новый Администратор",
+  "permissions": ["users.manage", "cars.manage", "services.manage"]
+}
+
+### Обновить админа
+PUT {{baseUrl}}/admin/2
+Authorization: {{adminToken}}
+Content-Type: application/json
+
+{
+  "permissions": ["users.manage", "cars.manage", "services.manage", "workers.manage"],
+  "isSuperAdmin": false
+}
+
+### Деактивировать админа
+PATCH {{baseUrl}}/admin/2/deactivate
+Authorization: {{adminToken}}
+
+### Активировать админа
+PATCH {{baseUrl}}/admin/2/activate
+Authorization: {{adminToken}}
+
+### Удалить админа
+DELETE {{baseUrl}}/admin/2
+Authorization: {{adminToken}} 

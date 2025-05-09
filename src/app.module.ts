@@ -13,6 +13,8 @@ import { TasksModule } from './tasks/tasks.module';
 import { DetailsModule } from './details/details.module';
 import { ServicesModule } from './services/services.module';
 import { PaintingServicesModule } from './painting-services/painting-services.module';
+import { AdminModule } from './admin/admin.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { PaintingServicesModule } from './painting-services/painting-services.mo
     DetailsModule,
     ServicesModule,
     PaintingServicesModule,
+    AdminModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

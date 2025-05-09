@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Delete, Body, Param, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Body,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { WorkersService } from './workers.service';
 import { Worker } from './worker.entity';
 import { CreateWorkerDto } from './dto/create-worker.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAdminAuthGuard } from '../admin/guards/jwt-admin-auth.guard';
 import { Review } from './review.entity';
 
 @Controller('workers')
@@ -20,13 +29,13 @@ export class WorkersController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAdminAuthGuard)
   create(@Body() createWorkerDto: CreateWorkerDto): Promise<Worker> {
     return this.workersService.create(createWorkerDto);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAdminAuthGuard)
   remove(@Param('id') id: string): Promise<void> {
     return this.workersService.remove(+id);
   }

@@ -14,9 +14,9 @@ export default new DataSource({
   host: configService.get('DB_HOST', 'localhost'),
   port: configService.get('DB_PORT', 5432),
   username: configService.get('DB_USERNAME', 'postgres'),
-  password: configService.get('DB_PASSWORD', 'cfiflfey228A!'),
+  password: configService.get('DB_PASSWORD', 'qwerty123'),
   database: configService.get('DB_DATABASE', 'cars_api'),
   entities: [User, EmailVerification],
   migrations: ['src/migrations/*.ts'],
   synchronize: false,
-}); 
+});

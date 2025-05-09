@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Car } from './car.entity';
 import { CreateCarDto } from './dto/create-car.dto';
+import { UpdateCarDto } from './dto/update-car.dto';
 
 @Injectable()
 export class CarsService {
@@ -33,5 +34,14 @@ export class CarsService {
     if (result.affected === 0) {
       throw new NotFoundException(`Car with ID ${id} not found`);
     }
+  }
+
+  async update(id: number, updateCarDto: UpdateCarDto): Promise<Car> {
+    const car = await this.findOne(id);
+
+    // Обновляем только переданные поля
+    Object.assign(car, updateCarDto);
+
+    return this.carsRepository.save(car);
   }
 }
